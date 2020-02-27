@@ -4,12 +4,12 @@
 #define Kd 0 // experiment to determine this, slowly increase the speeds and adjust this value. (Note: Kp < Kd)
 
 // MaxSpeeds should be tuned if the robot seems to turn faster with one motor than with the other...
-#define rightMaxSpeed 255 // max speed of the robot
-#define leftMaxSpeed 255 // max speed of the robot
+#define rightMaxSpeed 255 
+#define leftMaxSpeed 255
 
-// BaseSpeeds should be tuned if the robot seems to be "turning" while it sould be going straight... 
-#define rightBaseSpeed 200 // this is the speed at which the motors should spin when the robot is perfectly on the line
-#define leftBaseSpeed 200  // this is the speed at which the motors should spin when the robot is perfectly on the line
+// BaseSpeeds should be tuned if the robot seems to be "turning" while it sould be going straight...
+#define rightBaseSpeed 200 
+#define leftBaseSpeed 200
 
 QTRSensors qtr;
 
@@ -21,12 +21,13 @@ int position, error, lastError, motorSpeed;
 
 void setup()
 {
-  // Setting A6 as an OUTPUT for the LEDON switch wich will be HIGH the entire run.
+  // Setting A6 as an OUTPUT for the LEDON switch wich will be HIGH the entire run. (OPTIONAL)
   //pinMode(A6, OUTPUT);
   
   // configure the sensors
   qtr.setTypeRC();
   qtr.setSensorPins((const uint8_t[]){A0, A1, A2, A3, A4, A5}, SensorCount);
+  // If you need to use a pin to turn ON/OFF the sensors, set it on pinMode then uncomment this line below:
   //qtr.setEmitterPin(EmitterPin);
 
   delay(500);
@@ -84,7 +85,10 @@ void loop()
   if (rightMotorSpeed < 0) rightMotorSpeed = 0;
   if (leftMotorSpeed < 0) leftMotorSpeed = 0;
 
-  // Debug
+  // TODO: Futuramente se a velocidade for NEGATIVA, criar uma regra para INVERTER e enviar "ladoMaxSpeed" pro L1 ou R1
+  // enquanto manda o módulo (valor positivo) do valor da velocidade pro L2 ou R2 para "frear" a roda.
+
+  // Debug Avançado...
   // Serial.print("Posicao: ");
   // Serial.println(position);
   // Serial.print("ERRO: ");
@@ -101,5 +105,7 @@ void loop()
   digitalWrite(R2, LOW);
   analogWrite(L1, leftMotorSpeed);
   digitalWrite(L2, LOW);
+
+  // Sends the position to the Serial Monitor
   Serial.println(position);
 }
