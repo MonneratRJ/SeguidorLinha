@@ -2,6 +2,7 @@
 
 #define Kp .16 // experiment to determine this, start by something small that just makes your bot follow the line at a slow speed
 #define Kd 1.35 // experiment to determine this, slowly increase the speeds and adjust this value. (Note: Kp < Kd)
+#define lapSeconds 18 // this will determine how many seconds the bot will be running, remember this is in SECONDS, not millis...
 
 // MaxSpeeds should be tuned if the robot seems to turn faster with one motor than with the other...
 #define rightMaxSpeed 250 
@@ -18,6 +19,14 @@ const uint8_t SensorCount = 6;
 const uint8_t EmitterPin = A6;
 uint16_t sensorValues[SensorCount];
 int position, error, lastError, motorSpeed;
+
+// Variable to keep LAP TIME (no start/stop sensor), this will be used in milliseconds and started by "startLap()" function.
+long lapTime;
+
+long startLap(int time) {
+  lapTime = millis() + time * 1000;
+  return lapTime;
+}
 
 void setup()
 {
@@ -60,6 +69,8 @@ void setup()
   }
   Serial.println();
   Serial.println();
+
+  lapTime = startLap(lapSeconds);
 }
 
 void loop()
@@ -100,11 +111,19 @@ void loop()
   // Serial.println();Serial.println();
   // delay(250);
 
-  // Sends the power to the wheels
-  analogWrite(R1, rightMotorSpeed);
-  digitalWrite(R2, LOW);
-  analogWrite(L1, leftMotorSpeed);
-  digitalWrite(L2, LOW);
+  if(millis() < lapTime) {
+    // Sends the power to the wheels
+    analogWrite(R1, rightMotorSpeed);
+    digitalWrite(R2, LOW);
+    analogWrite(L1, leftMotorSpeed);
+    digitalWrite(L2, LOW);
+  } else {
+    // Lap time is OVER, STOP.
+    digitalWrite(R1, LOW);
+    digitalWrite(R2, LOW);
+    digitalWrite(L1, LOW);
+    digitalWrite(L2, LOW);
+  }
 
   // Sends the position to the Serial Monitor
   Serial.println(position);
