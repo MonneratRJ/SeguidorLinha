@@ -119,6 +119,7 @@ void loop()
     digitalWrite(L2, LOW);
   } else {
     // Lap time is OVER, STOP.
+    digitalWrite(LED_BUILTIN, HIGH);
     digitalWrite(R1, LOW);
     digitalWrite(R2, LOW);
     digitalWrite(L1, LOW);
