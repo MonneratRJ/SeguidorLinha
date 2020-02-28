@@ -1,7 +1,7 @@
 #include <QTRSensors.h>
 
-#define Kp 0.15 // experiment to determine this, start by something small that just makes your bot follow the line at a slow speed
-#define Kd 1 // experiment to determine this, slowly increase the speeds and adjust this value. (Note: Kp < Kd)
+#define Kp .16 // experiment to determine this, start by something small that just makes your bot follow the line at a slow speed
+#define Kd 1.35 // experiment to determine this, slowly increase the speeds and adjust this value. (Note: Kp < Kd)
 
 // MaxSpeeds should be tuned if the robot seems to turn faster with one motor than with the other...
 #define rightMaxSpeed 250 
