@@ -1,7 +1,7 @@
 #include <QTRSensors.h>
 
-#define Kp .17 // experiment to determine this, start by something small that just makes your bot follow the line at a slow speed
-#define Kd 1.2 // experiment to determine this, slowly increase the speeds and adjust this value. (Note: Kp < Kd)
+#define Kp .16 // experiment to determine this, start by something small that just makes your bot follow the line at a slow speed
+#define Kd 1.35 // experiment to determine this, slowly increase the speeds and adjust this value. (Note: Kp < Kd)
 #define lapSeconds 18 // this will determine how many seconds the bot will be running, remember this is in SECONDS, not millis...
 
 // MaxSpeeds should be tuned if the robot seems to turn faster with one motor than with the other...
@@ -9,8 +9,8 @@
 #define leftMaxSpeed 250
 
 // BaseSpeeds should be tuned if the robot seems to be "turning" while it sould be going straight...
-#define rightBaseSpeed 144 
-#define leftBaseSpeed 140
+#define rightBaseSpeed 100 
+#define leftBaseSpeed 100
 
 QTRSensors qtr;
 
@@ -53,22 +53,22 @@ void setup()
   delay(500);
 
   // print the calibration minimum values measured when emitters were on
-  Serial.begin(9600);
-  for (uint8_t i = 0; i < SensorCount; i++)
-  {
-    Serial.print(qtr.calibrationOn.minimum[i]);
-    Serial.print(' ');
-  }
-  Serial.println();
+  // Serial.begin(9600);
+  // for (uint8_t i = 0; i < SensorCount; i++)
+  // {
+  //   Serial.print(qtr.calibrationOn.minimum[i]);
+  //   Serial.print(' ');
+  // }
+  // Serial.println();
 
-  // print the calibration maximum values measured when emitters were on
-  for (uint8_t i = 0; i < SensorCount; i++)
-  {
-    Serial.print(qtr.calibrationOn.maximum[i]);
-    Serial.print(' ');
-  }
-  Serial.println();
-  Serial.println();
+  // // print the calibration maximum values measured when emitters were on
+  // for (uint8_t i = 0; i < SensorCount; i++)
+  // {
+  //   Serial.print(qtr.calibrationOn.maximum[i]);
+  //   Serial.print(' ');
+  // }
+  // Serial.println();
+  // Serial.println();
 
   lapTime = startLap(lapSeconds);
 }
@@ -125,7 +125,4 @@ void loop()
     digitalWrite(L1, LOW);
     digitalWrite(L2, LOW);
   }
-
-  // Sends the position to the Serial Monitor
-  Serial.println(position);
 }
